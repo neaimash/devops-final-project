@@ -1,49 +1,61 @@
 # Flask on Kubernetes (Minikube)
+This project demonstrates deploying a simple Flask application on a local Kubernetes cluster using Minikube.
 
-This project demonstrates deploying a Flask application on a local Kubernetes cluster using Minikube, including basic and advanced Kubernetes concepts.
-
+The application returns:
+**Hello, World!**
+---
+## Prerequisites
+Make sure you have installed:
+- Docker
+- Minikube
+- kubectl
+---
 ## 1. Kubernetes Cluster Setup
-
-Start Minikube:
+Start the cluster:
 ```bash
 minikube start
 ```
-Check cluster:
+Verify the cluster:
 ```bash
 kubectl get nodes
 ```
-Apply Pod:
+---
+##  2. Deploy the Application
+### Pod (basic test)
 ```bash
 kubectl apply -f flask-pod.yml
 ```
-## 2. Basic Kubernetes Resources
-
-### Deployment
+### Deployment (recommended)
 ```bash
 kubectl apply -f flask-deployment.yml
 kubectl get deployments
 kubectl get pods
 ```
-### Service
+---
+## 3. Expose the Application
 ```bash
 kubectl apply -f flask-service.yml
 kubectl get services
+```
+Access the app in browser:
+```bash
 minikube service flask-service
 ```
-### Horizontal Pod Autoscaler (HPA)
+---
+## 4. Auto Scaling (HPA)
 ```bash
 kubectl apply -f flask-HorizontalPodAutoscaler.yml
 kubectl get hpa
 ```
 ---
-## 3. Advanced Kubernetes Concepts
-### ConfigMap / Environment Variables
-Used envFrom in Deployment to load ConfigMap.
+## 5. Configuration (ConfigMap)
+The application uses environment variables via ConfigMap:
 ```bash
 kubectl apply -f flask-config.yaml
 ```
 ---
-### CronJob
+## 6. CronJob
+Runs scheduled tasks automatically:
 ```bash
 kubectl apply -f flask-cronjob.yml
 kubectl get cronjobs
@@ -51,10 +63,18 @@ kubectl get jobs
 kubectl get pods
 ```
 ---
-## Summary
-- Minikube cluster setup
-- Pods & Deployments
-- Services exposure
+## File Overview
+- flask-deployment.yml → runs the application
+- flask-service.yml → exposes the app
+- flask-HorizontalPodAutoscaler.yml → enables auto scaling
+- flask-config.yaml → stores configuration
+- flask-cronjob.yml → schedules periodic tasks
+---
+##  Summary
+This project covers:
+- Kubernetes cluster setup with Minikube
+- Deploying a Flask application
+- Exposing services
 - Auto-scaling with HPA
-- ConfigMaps for configuration
-- CronJobs for scheduled tasks
+- Managing configuration with ConfigMaps
+- Automating tasks with CronJobs
