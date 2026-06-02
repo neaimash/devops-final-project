@@ -1,0 +1,18 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: flask-cronjob
+spec:
+  schedule: "*/1 * * * *"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+            - name: health-check
+              image: curlimages/curl:latest
+              command:
+                - /bin/sh
+                - -c
+                - curl -f http://flask-service:5000 || exit 1
+          restartPolicy: OnFailure
