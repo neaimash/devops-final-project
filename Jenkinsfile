@@ -12,7 +12,7 @@ pipeline {
         stage('Build') {
             steps {
                 echo 'Building Docker image...'
-                bat 'docker build -t %DOCKER_IMAGE%:%IMAGE_TAG% .'
+                bat 'docker build -t %DOCKER_IMAGE%:%IMAGE_TAG% ./flask'
             }
         }
 
