@@ -18,6 +18,7 @@ pipeline {
 
         stage('Test') {
             steps {
+                bat 'docker rm -f flask-test 2>NUL || exit 0'
                 bat 'docker run -d --name flask-test -p 5000:5000 %DOCKER_IMAGE%:%IMAGE_TAG%'
                 sleep(time: 10, unit: 'SECONDS')
                 echo 'Testing endpoint with curl...'
