@@ -1,4 +1,4 @@
-pipline {
+pipeline {
     agent any
 
     environment {
@@ -15,7 +15,8 @@ pipline {
                 bat 'docker build -t %DOCKER_IMAGE%:%IMAGE_TAG% .'
             }
         }
-        stage('test') {
+
+        stage('Test') {
             steps {
                 bat 'docker run -d --name flask-test -p 5000:5000 %DOCKER_IMAGE%:%IMAGE_TAG%'
                 bat 'timeout /t 10'
@@ -25,11 +26,11 @@ pipline {
                 bat 'docker rm flask-test'
             }
         }
-        stage('deploy') {
+
+        stage('Deploy') {
             steps {
                 echo 'Deploying Flask app with Helm...'
                 bat 'helm upgrade --install %HELM_RELEASE% %HELM_CHART_PATH%'
-                }
             }
         }
     }
